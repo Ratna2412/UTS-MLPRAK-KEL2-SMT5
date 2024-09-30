@@ -15,7 +15,7 @@ matplotlib.use('TkAgg')
 pd.options.mode.chained_assignment = None 
 
 # Membaca data
-data = dataframe = pd.read_csv(r'D:\Ratna\Kuliah\Semester 5\Pembelajaran Mesin\Praktikum\Python_Mesin\UTS\lungCancer.csv', delimiter=';')
+data = dataframe = pd.read_csv(r'd:\COLLEGE\SEMESTER 5\MACHINE LEARNING\PRAKTIKUM\machine_learning\python\UTS-MLPRAK-KEL2-SMT5\lungCancer.csv', delimiter=';')
 
 # Seleksi kolom yang akan digunakan
 data = dataframe[['GENDER', 'AGE', 'SMOKING', 'YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC_DISEASE', 'FATIGUE ', 'ALLERGY ', 'WHEEZING', 'ALCOHOL_CONSUMING', 'COUGHING', 'SHORTNESS_OF_BREATH', 'SWALLOWING_DIFFICULTY', 'CHEST_PAIN', 'LUNG_CANCER']]
@@ -80,7 +80,7 @@ print(data)
 print("=".center(75, "="))
 
 # Menyimpan data setelah handling outlier
-output_file = r'D:\Ratna\Kuliah\Semester 5\Pembelajaran Mesin\Praktikum\Python_Mesin\UTS\data_cleaned.csv'
+output_file = r'D:\COLLEGE\SEMESTER 5\MACHINE LEARNING\PRAKTIKUM\machine_learning\python\UTS-MLPRAK-KEL2-SMT5\data_cleaned.csv'
 data.to_csv(output_file, index=False)
 print(f"Data setelah handling outlier disimpan ke '{output_file}'")
 
@@ -94,7 +94,7 @@ print('\nData yang telah dinormalisasi dengan metode z-score standarisasi:')
 print(standardized)
 
 # Menyimpan data yang telah dinormalisasi ke file CSV
-output_file = r'D:\Ratna\Kuliah\Semester 5\Pembelajaran Mesin\Praktikum\Python_Mesin\UTS\data_normalized.csv'
+output_file = r'D:\COLLEGE\SEMESTER 5\MACHINE LEARNING\PRAKTIKUM\machine_learning\python\UTS-MLPRAK-KEL2-SMT5\data_normalized.csv'
 standardized.to_csv(output_file, index=False)
 print(f"Data yang telah dinormalisasi disimpan ke '{output_file}'")
 
