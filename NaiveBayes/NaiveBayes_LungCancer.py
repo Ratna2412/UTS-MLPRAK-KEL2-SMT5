@@ -100,7 +100,7 @@ print(f"Data yang telah dinormalisasi disimpan ke '{output_file}'")
 
 # Grouping variabel untuk fitur dan label
 print("GROUPING VARIABEL".center(75, "="))
-X = standardized[['AGE', 'SMOKING', 'FATIGUE ', 'ALLERGY ']].values  
+X = standardized[['GENDER', 'AGE', 'SMOKING', 'YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC_DISEASE', 'FATIGUE ', 'ALLERGY ', 'WHEEZING', 'ALCOHOL_CONSUMING', 'COUGHING', 'SHORTNESS_OF_BREATH', 'SWALLOWING_DIFFICULTY', 'CHEST_PAIN']].values  
 y = data['LUNG_CANCER'].values  # Label
 print("data variabel".center(75, "="))
 print(X)
