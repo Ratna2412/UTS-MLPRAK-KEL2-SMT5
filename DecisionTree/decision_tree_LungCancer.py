@@ -3,15 +3,15 @@ import pandas as pd
 import seaborn as sns
 from sklearn import preprocessing
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score, precision_score
-from sklearn.naive_bayes import GaussianNB
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import ConfusionMatrixDisplay
 import matplotlib.pyplot as plt
 import matplotlib
 
-matplotlib.use('TkAgg') 
+matplotlib.use('TkAgg')
 
-pd.options.mode.chained_assignment = None 
+pd.options.mode.chained_assignment = None
 
 # Membaca data
 data = dataframe = pd.read_csv(r'd:\COLLEGE\SEMESTER 5\MACHINE LEARNING\PRAKTIKUM\machine_learning\python\UTS-MLPRAK-KEL2-SMT5\lungCancer.csv', delimiter=';')
@@ -121,42 +121,43 @@ print(y_test)
 print("============================================================")
 print()
 
-# Pemodelan Naive Bayes
-print("PEMODELAN DENGAN NAIVE BAYES".center(75, "="))
-gaussian = GaussianNB()
-gaussian.fit(X_train, y_train)
-Y_pred = gaussian.predict(X_test)
-accuracy_nb = round(accuracy_score(y_test, Y_pred) * 100, 2)
-acc_gaussian = round(gaussian.score(X_train, y_train) * 100, 2)
-print("instance prediksi naive bayes:")
+# permodelan Decision Tree
+print("PERMODELAN DENGAN DECISION TREE".center(75, "="))
+decision_tree = DecisionTreeClassifier()
+decision_tree.fit(X_train, y_train)
+Y_pred = decision_tree.predict(X_test)
+accuracy_tree = round(accuracy_score(y_test, Y_pred) * 100, 2)
+print("instance prediksi decision tree : ")
 print(Y_pred)
 
-# Perhitungan confusion matrix
-cm = confusion_matrix(y_test, Y_pred)
-print('CLASSIFICATION REPORT NAIVE BAYES'.center(75, '='))
+# perhitungan confusion matrix algoritma decision tree
+cm_tree = confusion_matrix(y_test, Y_pred)
+print("CLASSIFICATION REPORT DECISION TREE".center(75, "="))
 
-accuracy = accuracy_score(y_test, Y_pred)
-precision = precision_score(y_test, Y_pred)
+# hasil akurasi
+accuracy_tree = accuracy_score(y_test, Y_pred)
+precision_tree = precision_score(y_test, Y_pred)
 print(classification_report(y_test, Y_pred))
 
-TN = cm[1][1] * 1.0
-FN = cm[1][0] * 1.0
-TP = cm[0][0] * 1.0
-FP = cm[0][1] * 1.0
+TN = cm_tree[1][1] * 1.0
+FN = cm_tree[1][0] * 1.0
+TP = cm_tree[0][0] * 1.0
+FP = cm_tree[0][1] * 1.0
 total = TN + FN + TP + FP
 sens = TN / (TN + FP) * 100
 spec = TP / (TP + FN) * 100
 
-print('Akurasi : ', accuracy * 100, "%")
-print('Sensitivity : ' + str(sens))
-print('Specificity : ' + str(spec))
-print('Precision : ' + str(precision))
+print("Akurasi algoritma : ", accuracy_tree * 100, "%")
+print("Sensitivity algoritma : " + str(sens))
+print("Specificity algoritma : " + str(spec))
+print("Precission algoritma : " + str(precision_tree))
+
 print("============================================================")
 print()
 
-# Menampilkan Confusion Matrix
-cm_display = ConfusionMatrixDisplay(confusion_matrix=cm)
-print('Confusion matrix for Naive Bayes\n', cm)
+# hasil confusion matrix
+cm_display = ConfusionMatrixDisplay(confusion_matrix=cm_tree)
+print("Hasil confusion matrix algoritma Decision Tree\n", cm_tree)
 f, ax = plt.subplots(figsize=(8, 5))
 sns.heatmap(confusion_matrix(y_test, Y_pred), annot=True, fmt=".0f", ax=ax)
 plt.xlabel("Predicted")
