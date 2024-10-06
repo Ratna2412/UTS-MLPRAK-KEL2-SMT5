@@ -14,14 +14,24 @@ matplotlib.use('TkAgg')
 pd.options.mode.chained_assignment = None 
 
 # Membaca data
-data = dataframe = pd.read_csv(r'd:\COLLEGE\SEMESTER 5\MACHINE LEARNING\PRAKTIKUM\machine_learning\python\UTS-MLPRAK-KEL2-SMT5\lungCancer.csv', delimiter=';')
+data = dataframe = pd.read_csv(r'lungCancer.csv', delimiter=';')
 
 # Seleksi kolom yang akan digunakan
 data = dataframe[['GENDER', 'AGE', 'SMOKING', 'YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC_DISEASE', 'FATIGUE ', 'ALLERGY ', 'WHEEZING', 'ALCOHOL_CONSUMING', 'COUGHING', 'SHORTNESS_OF_BREATH', 'SWALLOWING_DIFFICULTY', 'CHEST_PAIN', 'LUNG_CANCER']]
 
 # Mengubah kolom 'LUNG_CANCER' dan 'GENDER' menjadi numerik
-data['LUNG_CANCER'] = data['LUNG_CANCER'].map({'YES': 2, 'NO': 1})
+data['LUNG_CANCER'] = data['LUNG_CANCER'].map({'YES': 1, 'NO': 0})
 data['GENDER'] = data['GENDER'].map({'M': 0, 'F': 1})
+
+# Ubah nilai kolom menjadi biner (1 dan 0)
+binary_columns = ['SMOKING', 'YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 
+                'CHRONIC_DISEASE', 'FATIGUE ', 'ALLERGY ', 'WHEEZING', 
+                'ALCOHOL_CONSUMING', 'COUGHING', 'SHORTNESS_OF_BREATH', 
+                'SWALLOWING_DIFFICULTY', 'CHEST_PAIN']
+
+# Ganti nilai 2 menjadi 1 dan nilai 1 menjadi 0
+for col in binary_columns:
+    data[col] = data[col].apply(lambda x: 1 if x > 1 else 0)
 
 # Tampilkan data awal
 print("data awal".center(75, "="))
@@ -58,52 +68,43 @@ for col, outlier_values in outliers.items():
 
 print("=".center(75, "=")) 
 
-# Handling Outlier
-# Hapus baris yang mengandung outlier
-for col, outlier_values in outliers.items():
-    if outlier_values:
-        data = data[~data[col].isin(outlier_values)]
+# # Handling Outlier
+# # Hapus baris yang mengandung outlier
+# for col, outlier_values in outliers.items():
+#     if outlier_values:
+#         data = data[~data[col].isin(outlier_values)]
 
-# Cetak hasil setelah menghapus outlier
-for col, outlier_values in outliers.items():
-    if outlier_values:
-        print(f"Outlier pada kolom {col}: {outlier_values} telah dihapus.")
-    else:
-        print(f"Tidak ada outlier pada kolom {col}")
+# # Cetak hasil setelah menghapus outlier
+# for col, outlier_values in outliers.items():
+#     if outlier_values:
+#         print(f"Outlier pada kolom {col}: {outlier_values} telah dihapus.")
+#     else:
+#         print(f"Tidak ada outlier pada kolom {col}")
 
-print("=".center(75, "="))
+# print("=".center(75, "="))
 
-# Tampilkan data setelah handling outlier
-print("data setelah handling outlier".center(75, "="))
-print(data)
-print("=".center(75, "="))
+# # Tampilkan data setelah handling outlier
+# print("data setelah handling outlier".center(75, "="))
+# print(data)
+# print("=".center(75, "="))
 
-# Menyimpan data setelah handling outlier
-output_file = r'D:\COLLEGE\SEMESTER 5\MACHINE LEARNING\PRAKTIKUM\machine_learning\python\UTS-MLPRAK-KEL2-SMT5\data_cleaned.csv'
-data.to_csv(output_file, index=False)
-print(f"Data setelah handling outlier disimpan ke '{output_file}'")
-
-# Normalisasi data metode z-score standarisasi
+# Normalisasi kolom AGE menggunakan metode z-score
 standard_scaler = preprocessing.StandardScaler()
-np_scaled = standard_scaler.fit_transform(data.drop(columns=['LUNG_CANCER']))
-standardized = pd.DataFrame(np_scaled, columns=data.drop(columns=['LUNG_CANCER']).columns)
-standardized['LUNG_CANCER'] = data['LUNG_CANCER'].values
+data['AGE'] = standard_scaler.fit_transform(data[['AGE']])  # Hanya menormalisasi kolom AGE
 
 print('\nData yang telah dinormalisasi dengan metode z-score standarisasi:')
-print(standardized)
-
-# Menyimpan data yang telah dinormalisasi ke file CSV
-output_file = r'D:\COLLEGE\SEMESTER 5\MACHINE LEARNING\PRAKTIKUM\machine_learning\python\UTS-MLPRAK-KEL2-SMT5\data_normalized.csv'
-standardized.to_csv(output_file, index=False)
-print(f"Data yang telah dinormalisasi disimpan ke '{output_file}'")
+print(data.head(10))  # Menampilkan 10 baris pertama dari DataFrame terstandarisasi
 
 # Grouping variabel untuk fitur dan label
 print("GROUPING VARIABEL".center(75, "="))
-X = standardized[['GENDER', 'AGE', 'SMOKING', 'YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 'CHRONIC_DISEASE', 'FATIGUE ', 'ALLERGY ', 'WHEEZING', 'ALCOHOL_CONSUMING', 'COUGHING', 'SHORTNESS_OF_BREATH', 'SWALLOWING_DIFFICULTY', 'CHEST_PAIN']].values  
+X = data[['GENDER', 'AGE', 'SMOKING', 'YELLOW_FINGERS', 'ANXIETY', 'PEER_PRESSURE', 
+           'CHRONIC_DISEASE', 'FATIGUE ', 'ALLERGY ', 'WHEEZING', 'ALCOHOL_CONSUMING', 
+           'COUGHING', 'SHORTNESS_OF_BREATH', 'SWALLOWING_DIFFICULTY', 'CHEST_PAIN']].values  
 y = data['LUNG_CANCER'].values  # Label
-print("data variabel".center(75, "="))
+
+print("Data variabel (Fitur)".center(75, "="))
 print(X)
-print("data kelas".center(75, "="))
+print("Data kelas (Label)".center(75, "="))
 print(y)
 print("============================================================")
 
